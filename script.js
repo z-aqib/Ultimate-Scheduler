@@ -1,31 +1,26 @@
 import { computeTimetable } from "./scheduler.js"
 let information = null;
+let count = -1;
+
+window.displayTimeTable = displayTimeTable; // Make function globally accessible
+window.displayNext = displayNext; // Make function globally accessible
 
 /**
  * displays the timetable on the screen using user-entered information. this method runs when user clicks the button. scheduler.js is called and timetable is computed, which returns the timetable and all the courses found of that user. using two for-loops, the timetable is displayed on screen, and then all the courses information is displayed on the screen. 
- * @param {Event} event when the user presses submit, its information is deleted. to prevent this, pass the event and call preventDefault()
  */
-function displayTimeTable(event) {
-    event.preventDefault(); // Prevent form submission
+function displayTimeTable() {
+    let program = document.getElementById("Program").value;
+    let semester = document.getElementById("Semester").value;
+    let stringsFinding = [program + "-" + semester, program + " - " + semester];
+    let file = document.getElementById("fileInput");
 
     // compute the timetable and break the information received into timetable and courses
-    information = computeTimetable();
-    let timetable = information[0];
+    information = computeTimetable(stringsFinding, file);
+    let timetable = information[0][0];
+    count = 0;
     let courses = information[1];
 
-    // get the timetable table and make sure it is visible
-    const table = document.getElementById('timetable');
-    if (getComputedStyle(table).display === 'none')
-        table.style.display = 'table';
-
-    // each row of timetable is to be represented as a column. flip the row, col vertices
-    for (let dayIndex = 0; dayIndex < timetable.length; dayIndex++) {
-        for (let timeIndex = 0; timeIndex < timetable[dayIndex].length; timeIndex++) {
-            const dayRow = table.rows[timeIndex + 1]; // Start from index 1 to skip the header row
-            const cell = dayRow.cells[dayIndex + 1]; // Start from index 1 to skip the first column (time slot)
-            cell.textContent = timetable[dayIndex][timeIndex];
-        }
-    }
+    readTimetable(timetable);
 
     // get the courses table and make sure it is visible
     let coursesTable = document.getElementById("courses");
@@ -48,7 +43,31 @@ function displayTimeTable(event) {
         }
         tableBody.appendChild(tableRow);
     }
-
+    console.log(information);
 }
 
-window.displayTimeTable = displayTimeTable; // Make function globally accessible
+function readTimetable(timetable) {
+    if (timetable == null)
+        return;
+    // get the timetable table and make sure it is visible
+    const table = document.getElementById('timetable');
+    if (getComputedStyle(table).display === 'none')
+        table.style.display = 'table';
+
+    // each row of timetable is to be represented as a column. flip the row, col vertices
+    for (let dayIndex = 0; dayIndex < 6; dayIndex++) {
+        for (let timeIndex = 0; timeIndex < timetable[dayIndex].length; timeIndex++) {
+            const dayRow = table.rows[timeIndex + 1]; // Start from index 1 to skip the header row
+            const cell = dayRow.cells[dayIndex + 1]; // Start from index 1 to skip the first column (time slot)
+            cell.textContent = timetable[dayIndex][timeIndex];
+        }
+    }
+}
+
+function displayNext(number) {
+    if (information != null &&(count + number < information[0].length) && (count + number >= 0)) {
+        count += number;
+        let timetable = information[0][count];
+        readTimetable(timetable);
+    }
+}
