@@ -1,0 +1,13 @@
+table {
+    display: none;
+}
+
+td,
+th {
+    /* make text centered */
+    text-align: center;
+    /* Add padding around content */
+    padding: 5px;
+    /* Prevent text from wrapping */
+    white-space: nowrap;
+}

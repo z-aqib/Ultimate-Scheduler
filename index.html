@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Zuha's Ultimate TimeTabler </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1> Welcome to Zuha's Ultimate Timetable Scheduler! </h1>
+    <h3>
+        This program makes multiple schedules of your IBA enrollment timetable using just an upload of the Excel Sheet!
+    </h3>
+
+    <form onsubmit="displayTimeTable(event)">
+        <label for="Program"> Enter your program: </label>
+        <select id="Program" name="Program">
+            <option value="BBA"> BBA </option>
+            <option value="BSACF"> BSACF </option>
+            <option value="BSECO"> BSECO </option>
+            <option value="BSSS"> BSSS </option>
+            <option value="BSCS"> BSCS </option>
+            <option value="BSEM"> BSEM </option>
+            <option value="BSMT"> BSMT </option>
+        </select>
+
+        <br>
+
+        <label for="Semester"> Enter your semester: </label>
+        <select id="Semester" name="Semester">
+            <option value="1"> 1 </option>
+            <option value="2"> 2 </option>
+            <option value="3"> 3 </option>
+            <option value="4"> 4 </option>
+            <option value="5"> 5 </option>
+            <option value="6"> 6 </option>
+            <option value="7"> 7 </option>
+            <option value="8"> 8 </option>
+        </select>
+        <br>
+        <button type="submit"> Create Timetable </button>
+    </form>
+    <br>
+    <table id="timetable" border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th> Monday </th>
+                <th> Tuesday </th>
+                <th> Wednesday </th>
+                <th> Thursday </th>
+                <th> Friday </th>
+                <th> Saturday </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 8:30-9:45 -->
+            <tr>
+                <th> 8:30 - 9:45 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- 10:00-11:15 -->
+            <tr>
+                <th> 10:00 - 11:30 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- 11:30-12:45 -->
+            <tr>
+                <th> 11:30 - 12:45 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- 1:00-2:15 -->
+            <tr>
+                <th> 1:00 - 2:15 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- 2:30-3:45 -->
+            <tr>
+                <th> 2:30 - 3:45 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- 4:00-5:15 -->
+            <tr>
+                <th> 4:00 - 5:15 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- 5:30-6:45 -->
+            <tr>
+                <th> 5:30 - 6:45 </th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table id="courses" border="1">
+        <thead>
+            <tr>
+                <th> Time </th>
+                <th> Course Name </th>
+                <th> Class UMS Number </th>
+                <th> Instructor </th>
+                <th> Days </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>
