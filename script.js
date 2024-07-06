@@ -19,6 +19,7 @@ async function displayTimeTable() {
     if (information == null || information == undefined)
         return null;
     let timetable = information[0][0];
+    document.getElementById("timetableCount").innerHTML = "Timetables: " + information[0].length;
     count = 0;
     let courses = information[1];
 
