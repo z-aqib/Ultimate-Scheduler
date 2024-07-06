@@ -20,6 +20,14 @@ function displayTimeTable() {
     count = 0;
     let courses = information[1];
 
+    // show the buttons to move timetables forward and back
+    const button1 = document.getElementById('forward');
+    if (getComputedStyle(button1).display === 'none')
+        button1.style.display = 'block'; // Correct value for display property
+    const button = document.getElementById('backward');
+    if (getComputedStyle(button).display === 'none')
+        button.style.display = 'block';
+
     readTimetable(timetable);
 
     // get the courses table and make sure it is visible
@@ -65,7 +73,8 @@ function readTimetable(timetable) {
 }
 
 function displayNext(number) {
-    if (information != null &&(count + number < information[0].length) && (count + number >= 0)) {
+    if (information != null && (count + number < information[0].length) && (count + number >= 0)) {
+
         count += number;
         let timetable = information[0][count];
         readTimetable(timetable);

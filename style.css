@@ -2,6 +2,14 @@ table {
     display: none;
 }
 
+#forward {
+    display: none;
+}
+
+#backward {
+    display: none;
+}
+
 td,
 th {
     /* make text centered */

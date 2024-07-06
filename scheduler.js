@@ -35,6 +35,11 @@ export function computeTimetable(stringsFinding, file) {
 function getCourses(stringsFinding, fileInput) {
     console.log(stringsFinding);
     let courses = [];
+    let filteredRows = getFilteredRows(stringsFinding, fileInput);
+}
+
+function getFilteredRows(stringsFinding, fileInput) {
+    console.log(stringsFinding);
     const file = fileInput.files[0];
     if (file) {
         const fileExtension = file.name.split('.').pop().toLowerCase();
@@ -54,11 +59,12 @@ function getCourses(stringsFinding, fileInput) {
                 for (let i = 0; i < stringsFinding.length; i++) {
                     const filteredData = jsonData.filter(row => row.some(cell => String(cell).includes(stringsFinding[i])));
                     console.log(JSON.stringify(filteredData));
-                    for(let j = 0; j<filteredRows.length; j++) {
+                    for (let j = 0; j < filteredRows.length; j++) {
 
                     }
                 }
-                
+                return filteredRows;
+
             }
             reader.onerror = function (error) {
                 console.error("FileReader error:", error);
@@ -66,6 +72,7 @@ function getCourses(stringsFinding, fileInput) {
             reader.readAsArrayBuffer(file);
         }
     }
+    return null;
 }
 
 function getTimetable(courses) {
