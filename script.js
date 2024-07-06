@@ -1,6 +1,6 @@
 import { computeTimetable } from "./scheduler.js"
 let information = null;
-let count = -1;
+let count = -1; // to know what timetable we are displaying
 
 window.displayTimeTable = displayTimeTable; // Make function globally accessible
 window.displayNext = displayNext; // Make function globally accessible
@@ -8,14 +8,16 @@ window.displayNext = displayNext; // Make function globally accessible
 /**
  * displays the timetable on the screen using user-entered information. this method runs when user clicks the button. scheduler.js is called and timetable is computed, which returns the timetable and all the courses found of that user. using two for-loops, the timetable is displayed on screen, and then all the courses information is displayed on the screen. 
  */
-function displayTimeTable() {
+async function displayTimeTable() {
     let program = document.getElementById("Program").value;
     let semester = document.getElementById("Semester").value;
     let stringsFinding = [program + "-" + semester, program + " - " + semester];
     let file = document.getElementById("fileInput");
 
     // compute the timetable and break the information received into timetable and courses
-    information = computeTimetable(stringsFinding, file);
+    information = await computeTimetable(stringsFinding, file);
+    if (information == null || information == undefined)
+        return null;
     let timetable = information[0][0];
     count = 0;
     let courses = information[1];
@@ -74,7 +76,6 @@ function readTimetable(timetable) {
 
 function displayNext(number) {
     if (information != null && (count + number < information[0].length) && (count + number >= 0)) {
-
         count += number;
         let timetable = information[0][count];
         readTimetable(timetable);

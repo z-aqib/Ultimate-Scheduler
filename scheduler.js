@@ -1,78 +1,196 @@
-export function computeTimetable(stringsFinding, file) {
-    // format is time - name-batch-room-classNum-teacher - name-batch-room-classNum-teacher - name-batch-room-classNum-teacher
-    let courses = [
-        { time: 0, name: "Data Analytics", batch: "BSCS-4", classNum: 71403, teacher: "Sir X", day: "MW" },
-        { time: 3, name: "Artificial Intelligence", batch: "BSCS-2", classNum: 71890, teacher: "Sir Z", day: "TTH" },
-        { time: 1, name: "Artificial Intelligence", batch: "BSCS-4", classNum: 72001, teacher: "Sir W", day: "FS" },
-        { time: 0, name: "Software Engineering", batch: "BSCS-1", classNum: 72567, teacher: "Sir X", day: "MW" },
-        { time: 2, name: "Machine Learning", batch: "BSCS-5", classNum: 73042, teacher: "Sir V", day: "FS" }
-    ]
+export async function computeTimetable(stringsFinding, file) {
+    // let courses = [
+    //     { time: 0, name: "Data Analytics", batch: "BSCS-4", classNum: 71403, teacher: "Sir X", day: "MW" },
+    //     { time: 3, name: "Artificial Intelligence", batch: "BSCS-2", classNum: 71890, teacher: "Sir Z", day: "TTH" },
+    //     { time: 1, name: "Artificial Intelligence", batch: "BSCS-4", classNum: 72001, teacher: "Sir W", day: "FS" },
+    //     { time: 0, name: "Software Engineering", batch: "BSCS-1", classNum: 72567, teacher: "Sir X", day: "MW" },
+    //     { time: 2, name: "Machine Learning", batch: "BSCS-5", classNum: 73042, teacher: "Sir V", day: "FS" }
+    // ]
     console.log("start file");
-    getCourses(stringsFinding, file);
+    let courses = await getCourses(stringsFinding, file);
+    if (courses == null)
+        return null;
     console.log("end file");
-    let coursesPerms = permutations(courses);
+    console.log("courses " + courses);
     let timetables = [];
-    for (let k = 0; k < coursesPerms.length; k++) {
-        let timetable = getTimetable(coursesPerms[k]);
-        let index = -1;
-        for (let i = 0; i < timetables.length; i++) {
-            let allSame = true;
-            for (let j = 0; j < timetable[6].length; j++) {
-                if (timetables[i][6].indexOf(timetable[6][j]) == -1)
-                    allSame = false;
+    if (courses.length <= 9) {
+        console.log("start perms");
+        let coursesPerms = permutations(courses);
+        console.log("end perms");
+        console.log("coursePerms " + coursesPerms);
+        for (let k = 0; k < coursesPerms.length; k++) {
+            let timetable = getTimetable(coursesPerms[k]);
+            let index = -1;
+            for (let i = 0; i < timetables.length; i++) {
+                let allSame = true;
+                for (let j = 0; j < timetable[6].length; j++) {
+                    if (timetables[i][6].indexOf(timetable[6][j]) == -1)
+                        allSame = false;
+                }
+                console.log("allSame " + allSame);
+                if (allSame == true)
+                    index = i;
             }
-            if (allSame == true)
-                index = i;
+            if (index == -1) {
+                timetables.push(timetable);
+                console.log(timetable[6]);
+            }
         }
-        if (index == -1) {
-            timetables.push(timetable);
-            console.log(timetable[6]);
-        }
+        console.log("timetables " + timetables);
+    } else {
+        console.log("start backtrack");
+        const currentTimetable = [];
+        // Start the backtracking process
+        backtrack(timetables, currentTimetable, courses, 0);
+        console.log("end backtrack");
+        console.log(timetables);
     }
     return [timetables, courses];
 }
 
-function getCourses(stringsFinding, fileInput) {
+async function getCourses(stringsFinding, fileInput) {
     console.log(stringsFinding);
     let courses = [];
-    let filteredRows = getFilteredRows(stringsFinding, fileInput);
+    let filteredRows = await getFilteredRows(stringsFinding, fileInput);
+    console.log(filteredRows);
+    if (filteredRows === null)
+        return null;
+    // format is time - name-batch-room-classNum-teacher - name-batch-room-classNum-teacher - name-batch-room-classNum-teacher
+    console.log("running get courses");
+    for (let i = 0; i < filteredRows.length; i++) {
+        let time = filteredRows[i][0];
+        for (let j = 2; j < filteredRows[i].length; j += 5) {
+            if (checkString(filteredRows[i][j], stringsFinding)) {
+                let day = j == 2 ? "MW" : j == 7 ? "TTH" : j == 12 ? "FS" : "";
+                let course = { time: time, name: filteredRows[i][j - 1], room: filteredRows[i][j + 1], classNum: filteredRows[i][j + 2], teacher: filteredRows[i][j + 3], day: day };
+                console.log(course);
+                courses.push(course);
+            }
+        }
+    }
+    return courses;
 }
 
-function getFilteredRows(stringsFinding, fileInput) {
+function checkString(string, stringsFinding) {
+    for (let i = 0; i < stringsFinding.length; i++) {
+        if (string == stringsFinding[i])
+            return true;
+    }
+    return false;
+}
+
+async function getFilteredRows(stringsFinding, fileInput) {
     console.log(stringsFinding);
+    console.log(fileInput);
     const file = fileInput.files[0];
+    console.log(file);
     if (file) {
         const fileExtension = file.name.split('.').pop().toLowerCase();
         if (fileExtension === 'xlsx' || fileExtension === 'xls') {
             console.log("read xlsx");
-            // Process XLSX file
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                console.log("reader.onload running");
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const sheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                const filteredRows = [];
-                for (let i = 0; i < stringsFinding.length; i++) {
-                    const filteredData = jsonData.filter(row => row.some(cell => String(cell).includes(stringsFinding[i])));
-                    console.log(JSON.stringify(filteredData));
-                    for (let j = 0; j < filteredRows.length; j++) {
-
-                    }
-                }
+            try {
+                console.log(file);
+                const filteredRows = await readExcelFile(stringsFinding, file);
+                console.log("Filtered Rows:", filteredRows);
                 return filteredRows;
-
+            } catch (error) {
+                console.error("Error reading file:", error);
             }
-            reader.onerror = function (error) {
-                console.error("FileReader error:", error);
-            };
-            reader.readAsArrayBuffer(file);
         }
     }
     return null;
+}
+
+function readExcelFile(stringsFinding, file) {
+    console.log(stringsFinding);
+    console.log(file);
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            console.log("reader.onload running");
+            const data = new Uint8Array(e.target.result);
+            console.log(data);
+            const workbook = XLSX.read(data, { type: 'array' });
+            console.log(workbook);
+            const sheetName = workbook.SheetNames[0];
+            console.log(sheetName);
+            const worksheet = workbook.Sheets[sheetName];
+            console.log(worksheet);
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            console.log(jsonData);
+
+            // Manually fill in missing time values
+            let lastTime = null;
+            const filledData = jsonData.map(row => {
+                if (row[0]) {
+                    lastTime = row[0];
+                } else {
+                    row[0] = lastTime;
+                }
+                return row;
+            });
+
+            console.log(filledData);
+            const filteredRows = [];
+            for (let i = 0; i < stringsFinding.length; i++) {
+                const filteredData = filledData.filter(row => row.some(cell => String(cell).includes(stringsFinding[i])));
+                for (let j = 0; j < filteredData.length; j++) {
+                    let same = false;
+                    for (let k = 0; k < filteredRows.length; k++) {
+                        if (filteredData[j] === filteredRows[k]) {
+                            same = true;
+                        }
+                    }
+                    if (!same) {
+                        filteredRows.push(filteredData[j]);
+                    }
+                }
+            }
+            resolve(filteredRows);
+        };
+
+        reader.onerror = function (error) {
+            console.log("ERROR: " + error);
+            reject(error);
+        };
+
+        try {
+            console.log(file);
+            reader.readAsArrayBuffer(file);
+        }
+        catch (e) {
+            console.log("error: " + e);
+        }
+    });
+}
+
+function isValidTimetable(timetable, course) {
+    // Implement your logic to check for conflicts in the timetable
+    // Example: Check if the course time conflicts with any existing courses
+    for (let existingCourse of timetable) {
+        if (existingCourse.time === course.time && existingCourse.day === course.day) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Recursive backtracking function to generate timetables
+function backtrack(timetables, currentTimetable, courses, start) {
+    // If the current timetable has the same number of courses, add it to the results
+    if (start >= courses.length) {
+        timetables.push([...currentTimetable]);
+        return;
+    }
+
+    // Try adding each course to the current timetable
+    for (let i = start; i < courses.length; i++) {
+        if (isValidTimetable(currentTimetable, courses[i])) {
+            currentTimetable.push(courses[i]);
+            backtrack(timetables, currentTimetable, courses, i + 1);
+            currentTimetable.pop(); // Backtrack
+        }
+    }
 }
 
 function getTimetable(courses) {
@@ -135,6 +253,7 @@ function checkTimeValidity(timetable, day, time) {
 }
 
 function permutations(arr) {
+    console.log(arr.length);
     if (arr.length === 1) {
         return [arr];
     }
