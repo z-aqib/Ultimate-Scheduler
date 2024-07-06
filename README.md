@@ -16,13 +16,13 @@ Its especially not cool when you have to
 
 (sorry for the reality check)     
 
-Thats when I came in.    
+## Thats when I came in.    
 
 This web application takes your excel sheet, reads it, extracts all the courses that your program-batch is offered, and creates all the possible timetables - **in a matter of seconds**.   
 - It is real time updated, meaning if the excel sheet is updated, you can re-enter your sheet and re-generate them.   
 - It also provides you a list of all the courses it used to make the timetable, including class numbers, class locations and instructor names.  
 
-Cool right?   
+## Cool right?   
 
 But it gets better - this isnt only for students, but for the **program office as well**. When sending out the timetable, the Program Office endures many complains that students cannot make timetables because their courses are clashing. This instantly solves the problem - the Program Office can quickly generate timetables for each batch and check which course is missing and which needs to be rescheduled.   
 
