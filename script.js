@@ -38,6 +38,9 @@ async function displayTimeTable() {
     if (getComputedStyle(coursesTable).display === 'none')
         coursesTable.style.display = 'table';
 
+    // clear the table for all previous instances
+    removeAllValuesFromTable("courses");
+
     // get each course information and display accordingly
     let keys = ["time", "name", "classNum", "teacher", "day"];
     for (let i = 0; i < courses.length; i++) {
@@ -54,7 +57,6 @@ async function displayTimeTable() {
         }
         tableBody.appendChild(tableRow);
     }
-    console.log(information);
 }
 
 function readTimetable(timetable) {
@@ -80,5 +82,18 @@ function displayNext(number) {
         count += number;
         let timetable = information[0][count];
         readTimetable(timetable);
+    }
+}
+
+function removeAllValuesFromTable(tableName) {
+    // get the table
+    var table = document.getElementById(tableName);
+
+    // get its body
+    var tbody = table.getElementsByTagName("tbody")[0];
+
+    // Remove all rows from the tbody
+    while (tbody.rows.length > 0) {
+        tbody.deleteRow(0);
     }
 }
