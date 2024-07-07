@@ -36,3 +36,8 @@ For any bugs, please contact me at z.aqib.26106@khi.iba.edu.pk immediately! #Typ
 
 ## Compatibility of the application
 However, currently this web application is only available for IBA students. If you want to make it compatible for your university, hit me a message at z.aqib.26106@khi.iba.edu.pk and I will update the code and send it to you.    
+
+## Important Milestones   
+Started: Thursday, July 4, 2024 1:48 PM    
+Achieved Goal: Sunday, July 8, 2024 12:27 AM    
+(after that, there were bug improvements and features added)    
