@@ -1,3 +1,6 @@
+// code that was used in scheduler.js but is no longer needed is preserved here. 
+
+/*
 if (courses.length <= 9) {
     let coursesPerms = permutations(courses);
     for (let k = 0; k < coursesPerms.length; k++) {
@@ -79,7 +82,7 @@ function checkNameValidity(timetable, courseName) {
  * @param {number} day 
  * @param {String} time 
  * @returns {boolean}
- */
+ *
 function checkTimeValidity(timetable, day, time) {
     if (day != 4)
         if (timetable[day][time] == null && timetable[day + 2][time] == null)
@@ -92,3 +95,4 @@ function checkTimeValidity(timetable, day, time) {
         else
             return true;
 }
+*/

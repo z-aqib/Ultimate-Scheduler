@@ -1,19 +1,25 @@
+/* what are the background and overall features like */
 body {
     background-color: lightblue;
 }
 
-table {
-    display: none;
-}
-
+/* the "next timetable" button */
 #forward {
     display: none;
 }
 
+/* the "previous timetable" button */
 #backward {
     display: none;
 }
 
+/* all tables configured */
+table {
+    /* they are hidden by default and shown using JS */
+    display: none;
+}
+
+/* all tables configured */
 td,
 th {
     /* make text centered */
