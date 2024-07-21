@@ -21,6 +21,7 @@ async function displayTimeTable() {
     let timetable = information[0][0];
     document.getElementById("timetableCount").innerHTML = "Timetables: " + information[0].length;
     count = 0;
+    document.getElementById("timetableDisplaying").innerHTML = "Displaying timetable " + (count + 1);
     let courses = information[1];
 
     // show the buttons to move timetables forward and back
@@ -82,6 +83,7 @@ function displayNext(number) {
         count += number;
         let timetable = information[0][count];
         readTimetable(timetable);
+        document.getElementById("timetableDisplaying").innerHTML = "Displaying timetable " + (count + 1);
     }
 }
 

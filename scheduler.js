@@ -40,7 +40,7 @@ async function getCourses(stringsFinding, fileInput) {
                     name = name.split("Only");
                     name = name[0];
                 }
-                let course = { time: time, name: name.trim(), room: filteredRows[i][j + 1], classNum: filteredRows[i][j + 2], teacher: filteredRows[i][j + 3], day: day };
+                let course = { time: time, name: name.trim(), room: filteredRows[i][j + 1], classNum: filteredRows[i][j + 2], teacher: filteredRows[i][j + 3], day: day, number: i };
                 courses.push(course);
             }
         }
@@ -141,13 +141,13 @@ function convertToTable(timetables) {
         // append all the courses to the timetable
         for (let j = 0; j < timetables[i].length; j++) {
             const day = timetables[i][j].day == "MW" ? 0 : timetables[i][j].day == "TTH" ? 1 : 4;
-            let string = timetables[i][j].name + ", " + timetables[i][j].classNum;
+            let string = timetables[i][j].name + ", " + timetables[i][j].teacher;
             timetable[day][timetables[i][j].time] = string;
             if (day != 4)
                 timetable[day + 2][timetables[i][j].time] = string;
             else
                 timetable[day + 1][timetables[i][j].time] = string;
-            timetable[6].push(timetables[i][j].classNum);
+            timetable[6].push(timetables[i][j].number);
         }
         // now check if its the same to an exisitng timetable
         let index = -1;
