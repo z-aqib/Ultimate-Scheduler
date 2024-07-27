@@ -18,11 +18,10 @@ async function displayTimeTable() {
     information = await computeTimetable(stringsFinding, file);
     if (information == null || information == undefined)
         return null;
-    let timetable = information[0][0];
     document.getElementById("timetableCount").innerHTML = "Timetables: " + information[0].length;
     count = 0;
     document.getElementById("timetableDisplaying").innerHTML = "Displaying timetable " + (count + 1);
-    let courses = information[1];
+    displayNext(0);
 
     // show the buttons to move timetables forward and back
     const button1 = document.getElementById('forward');
@@ -32,8 +31,6 @@ async function displayTimeTable() {
     if (getComputedStyle(button).display === 'none')
         button.style.display = 'block';
 
-    readTimetable(timetable);
-
     // get the courses table and make sure it is visible
     let coursesTable = document.getElementById("courses");
     if (getComputedStyle(coursesTable).display === 'none')
@@ -41,6 +38,8 @@ async function displayTimeTable() {
 
     // clear the table for all previous instances
     removeAllValuesFromTable("courses");
+
+    let courses = information[1];
 
     // get each course information and display accordingly
     let keys = ["time", "name", "classNum", "teacher", "day"];
