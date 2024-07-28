@@ -43,5 +43,5 @@ However, currently this web application is only available for IBA students. If y
 
 (after that, there were bug improvements and features added)    
 
-**Bug fix 1.01**: scheduling courses without their class numbers: Sunday, July 21, 2024 1:51 PM
+**Bug fix 1.01**: scheduling courses without their class numbers: Sunday, July 21, 2024 1:51 PM    
 **Bug fix 1.02**: labs should be double slot: Sunday, July 28, 2024 12:03 AM
