@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Custom Multi-Select Dropdown</title>
+    <style>
+        .dropdown {
+            position: relative;
+            /* Position the dropdown relative to its normal position */
+            display: inline-block;
+            /* Display the dropdown as an inline block element */
+        }
+
+        .dropdown-content {
+            display: none;
+            /* Initially hide the dropdown content */
+            position: absolute;
+            /* Position the dropdown content absolutely relative to the dropdown container */
+            background-color: #f9f9f9;
+            /* Set the background color of the dropdown content */
+            border: 1px solid #ccc;
+            /* Add a border to the dropdown content */
+            padding: 10px;
+            /* Add padding inside the dropdown content */
+        }
+
+        .dropdown-content label {
+            display: block;
+            /* Display each label as a block element to make them stack vertically */
+        }
+
+        .dropdown button {
+            padding: 10px;
+            /* Add padding inside the button */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dropdown">
+        <button onclick="toggleDropdown()">Choose courses</button>
+        <div class="dropdown-content" id="dropdown-content">
+            <label><input type="checkbox" value="course1"> Course 1</label>
+            <label><input type="checkbox" value="course2"> Course 2</label>
+            <label><input type="checkbox" value="course3"> Course 3</label>
+            <label><input type="checkbox" value="course4"> Course 4</label>
+            <label><input type="checkbox" value="course5"> Course 5</label>
+            <label><input type="checkbox" value="course6"> Course 6</label>
+            <label><input type="checkbox" value="course7"> Course 7</label>
+            <label><input type="checkbox" value="course8"> Course 8</label>
+        </div>
+    </div>
+
+    <button onclick="getSelectedCourses()">Submit</button>
+
+    <script>
+        function toggleDropdown() {
+            const dropdownContent = document.getElementById('dropdown-content');
+            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function getSelectedCourses() {
+            const checkboxes = document.querySelectorAll('.dropdown-content input[type="checkbox"]');
+            const selectedOptions = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            if (selectedOptions.length === 0) {
+                console.log('No courses selected.');
+            } else {
+                console.log('Selected courses:', selectedOptions);
+            }
+
+            // You can now use selectedOptions array as needed
+        }
+    </script>
+
+</body>
+
+</html>
