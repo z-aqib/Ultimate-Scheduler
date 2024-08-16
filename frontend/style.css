@@ -1,16 +1,82 @@
 /* what are the background and overall features like */
 body {
-    background-color: lightblue;
+    background-color: var(--light_blue);
 }
 
+/* global variables */
+:root {
+    --white: #fff;
+    --black: #000000;
+    --light_blue: #add8e6;
+    --dark_pink: #ff004f;
+}
+
+/* -------------------------------------HEADER------------------------------------- */
+
+#header {
+    width: 100%;
+    /* Ensure the header takes the full width of the viewport */
+    background-color: red;
+    padding: 0;
+    /* Remove padding */
+    margin: 0;
+    /* Ensure no margin is applied */
+}
+
+#container {
+    display: flex;
+    /* so i want all the contents in #container to be side by side */
+    justify-content: flex-end;
+    /* Aligns the content to the right */
+    padding: 0 150px;
+    /* so the navigation buttons are not stuck to the right but a little in the middle*/
+}
+
+nav ul {
+    display: flex;
+    /* so i want all the contents in nav ul to be side by side */
+    list-style: none;
+    /* so there are no bullet points */
+    padding: 0;
+    margin: 0;
+    /* usually lists are somewhat out, like a bit to the right and a bit down. make sure there is no such thing */
+}
+
+nav ul li {
+    margin: 0 15px;
+    /* 0 from top and bottom and 15 px from left and right, to ensure there is some space between the buttons*/
+    font-weight: bold;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    /* removes all text decorations such as underline */
+}
+
+/* specific navigation button of login*/
+nav ul li.login {
+    /* i want it to have a box around it */
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    color: white;
+    padding: 1px 20px;
+    border-radius: 4px;
+    border-color: white;
+    font-weight: bold;
+}
+
+/* -------------------------------------TIMETABLER------------------------------------- */
+
 /* the "next timetable" button */
-#forward {
+#forwardTimetableButton {
     display: none;
+    /* the forward button of timetables will not be displayed until the user pressed getTimetable() as no timetables would have been displayed till then to move forward */
 }
 
 /* the "previous timetable" button */
-#backward {
+#backwardTimetableButton {
     display: none;
+    /* the backward button of timetables will not be displayed until the user pressed getTimetable() as no timetables would have been displayed till then to move backward */
 }
 
 /* all tables configured */
